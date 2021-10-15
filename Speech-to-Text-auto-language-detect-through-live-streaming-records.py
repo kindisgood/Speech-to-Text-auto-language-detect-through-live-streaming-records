@@ -1,11 +1,13 @@
+#more info. https://cloud.google.com/speech-to-text/docs 
+
 from __future__ import division
 
 import re
 import sys
 
-from google.cloud import speech_v1p1beta1 as speech
+from google.cloud import speech_v1p1beta1 as speech #pip install google.cloud #pip install speech_v1p1beta1
 
-import pyaudio
+import pyaudio #pip install pyaudio (if you can't install succefully, see https://www.youtube.com/watch?v=-3am_5jMzJ4)
 from six.moves import queue
 
 RATE = 16000
@@ -13,11 +15,16 @@ CHUNK = int(RATE / 10)
 
 client = speech.SpeechClient()
 
+#more info. https://cloud.google.com/speech-to-text/docs/multiple-languages
 first_lang = "ko-KR"
 second_lang = "en-US"
 third_lang = "ja-JP"
 fourth_lang = "de-DE"
 
+
+# Here we construct a recognition metadata object.
+# Most metadata fields are specified as enums that can be found
+# in speech.enums.RecognitionMetadata
 
 metadata = speech.RecognitionMetadata()
 metadata.interaction_type = speech.RecognitionMetadata.InteractionType.PHONE_CALL
@@ -32,7 +39,7 @@ metadata.recording_device_name = "Pixel 2 XL"
 metadata.industry_naics_code_of_audio = 519190
 
 
-class MicrophoneStream(object):
+class MicrophoneStream(object): #more info. https://cloud.google.com/speech-to-text/docs/streaming-recognize
 
     def __init__(self, rate, chunk):
         self._rate = rate
